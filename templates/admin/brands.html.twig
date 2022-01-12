@@ -3,6 +3,8 @@
 {% block main %}
 
 	{% for brand in brands %}
+	<h1>{{ admin }}</h1>
+
 
 <img src="{{ asset('image/' ~ brand.image) }}" alt="{{ brand.name }}">
 		<h2>

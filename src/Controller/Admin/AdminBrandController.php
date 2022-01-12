@@ -97,7 +97,7 @@ class AdminBrandController extends AbstractController
         if ($brandForm->isSubmitted() && $brandForm->isValid()) {
 
 
-            $mediaFile = $brandForm->get('media')->getData();
+            $mediaFile = $brandForm->get('image')->getData();
 
             if ($mediaFile) {
 
@@ -112,7 +112,7 @@ class AdminBrandController extends AbstractController
                     $newFilename
                 );
 
-                $brand->setMedia($newFilename);
+                $brand->setImage($newFilename);
             }
 
             $entityManagerInterface->persist($brand);
