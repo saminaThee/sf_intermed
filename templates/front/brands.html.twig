@@ -2,9 +2,11 @@
 
 {% block main %}
 
+	<h1>{{ batman }}</h1>
+	
 	{% for brand in brands %}
 
-
+	<img src="{{ asset('image/' ~ brand.image) }}" alt="{{ brand.name }}">
 		<h2>
 			<a href="{{ path('brand_show', {'id' : brand.id}) }}">{{ brand.name }}</a>
 		</h2>
