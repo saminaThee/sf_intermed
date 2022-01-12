@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AdminBrandController extends AbstractController
 {
@@ -39,8 +40,10 @@ class AdminBrandController extends AbstractController
         $id,
         BrandRepository $brandRepository,
         Request $request,
-        EntityManagerInterface $entityManagerInterface
-    ) {
+        EntityManagerInterface $entityManagerInterface,
+        SluggerInterface $sluggerInterface
+    )
+    {
 
         $brand = $brandRepository->find($id);
 
@@ -50,7 +53,7 @@ class AdminBrandController extends AbstractController
 
         if ($brandForm->isSubmitted() && $brandForm->isValid()) {
 
-            $mediaFile = $brandForm->get('image')->getData();
+            $imageFile = $brandForm->get('image')->getData();
 
             if ($imageFile) {
 
@@ -67,6 +70,8 @@ class AdminBrandController extends AbstractController
 
                 $brand->setImage($newFilename);
 
+            }
+
 
 
             $entityManagerInterface->persist($brand);
@@ -80,14 +85,10 @@ class AdminBrandController extends AbstractController
     }
 
     /**
-     * @Route("admin/create/brand/", name="admin_brand_create")
+     * @Route("admin/create/brand", name="admin_create_brand")
      */
-    
-    public function adminBrandCreate(
-        Request $request,
-        EntityManagerInterface $entityManagerInterface,
-        SluggerInterface $sluggerInterface
-    ) {
+    public function adminCreateBrand(Request $request,EntityManagerInterface $entityManagerInterface, SluggerInterface $sluggerInterface)
+    {
         $brand = new Brand();
 
         $brandForm = $this->createForm(BrandType::class, $brand);
@@ -125,7 +126,9 @@ class AdminBrandController extends AbstractController
         return $this->render("admin/brandform.html.twig", ['brandForm' => $brandForm->createView()]);
     }
 
-    /**
+
+
+     /**
      * @Route("admin/delete/brand/{id}", name="admin_delete_brand")
      */
     public function adminDeleteBrand(
